@@ -52,7 +52,6 @@ class RawDataTable:
             for movie in self.users.table[user].ratings:
                 total = 0
                 OJ = self.thetaTx(self.users.table[user].thetas, self.movies.table[movie].x)
-                self.errorT.append((OJ - self.movies.table[movie].ratings[user])**2)
                 for theta in range(len(self.users.table[user].thetas)):
                     total += ((OJ - self.movies.table[movie].ratings[user])*self.movies.table[movie].x[theta])
                     self.users.table[user].newTheta[theta] -= (self.learningRate * total)
@@ -69,27 +68,31 @@ class RawDataTable:
 
     def computeErrors(self):
         self.avgError["x"].append(c.deepcopy(self.averageList(self.errorX)))
-        self.avgError["t"].append(c.deepcopy(self.averageList(self.errorT)))
         self.errorX.clear()
-        self.errorT.clear()
+
+    def writeTable(self):
+        all = []
+        with open("Predicted Output.txt", 'w') as ofile:
+            for movie in self.movies.table:
+                ratings = []
+                ofile.write(str(self.movies.table[movie].title))
+                ofile.write(": ")
+                for user in self.users.table:
+                    OJ = (int(self.thetaTx(self.users.table[user].thetas, self.movies.table[movie].x)*100))/100
+                    ratings.append(OJ)
+                    ofile.write("UserID: ")
+                    ofile.write(self.users.table[user].userID)
+                    ofile.write(": ")
+                    ofile.write(str(OJ))
+                    ofile.write(" ")
+                all.append([self.averageList(ratings), str(self.movies.table[movie].title)])
+                ofile.write("\n")
+            print("Top five highest predicted movies:")
+            for i in range(0, 5):
+                print(i+1, end=": ")
+                print(max(all))
+                all.remove(max(all))
 
 
 
 
-# optimization algorithm
-# thetaJ**T the vector muiltiplication of all thetas with all features
-# yIJ user actual rating for movie
-# theta kj is one particular feature value
-
-
-''' 
-    def updateTheta(self):
-        total = 0
-        for user in self.users.table:
-            for theta in self.users.table[user].thetas:
-                total += (((self.thetaTx(self.users.table[user].thetas, self.movies.table[movie].x)) -
-                               self.movies.table[movie].ratings[user])*self.users.table[user].thetas[feature])
-            self.users.table[user].newTheta -= (self.learningRate * total)
-            self.users.table[user].theta = self.users.table[user].newTheta
-        
-'''
