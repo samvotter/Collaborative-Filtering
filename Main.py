@@ -4,7 +4,7 @@ import time
 
 
 table = RDT.RawDataTable()
-numberOfIterations = 60
+numberOfIterations = 120
 start = time.time()
 for i in range(0, numberOfIterations):
     table.updateX()

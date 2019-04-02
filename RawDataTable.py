@@ -34,7 +34,6 @@ class RawDataTable:
         return total
 
     def updateX(self):
-
         for movie in self.movies.table:
             for user in self.movies.table[movie].ratings:
                 total = 0

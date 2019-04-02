@@ -13,7 +13,7 @@ class Movie:
         self.average = 0
 
         self.x = []
-        for i in range(0, 20):
+        for i in range(0, 10):
             self.x.append(int((random.randint(1, 2) / random.randint(10, 100))*10000)/10000)
         self.new_x = copy.deepcopy(self.x)
 
@@ -39,8 +39,6 @@ class Movie:
             self.average += self.ratings[rating]
         if len(self.ratings) > 0:
             self.average /= len(self.ratings)
-
-
 
 
 class MovieTable:

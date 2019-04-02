@@ -19,7 +19,7 @@ class User:
         self.ratings = {}
 
         self.thetas = []
-        for i in range(20):
+        for i in range(10):
             self.thetas.append(int((random.randint(1, 2) / random.randint(10, 100))*10000)/10000)
         self.newTheta = copy.deepcopy(self.thetas)
 
